@@ -3,7 +3,7 @@ const route = express.Router();
 const { body, validationResult } = require('express-validator')
 
 
-route.post("/"),[
+route.post("",[
     body('email').isString().not().isEmpty(),
     body('password').isString().not().isEmpty(),
 ]   ,async (req, res) => {
@@ -28,7 +28,7 @@ route.post("/"),[
             res.status(500).send("Problem z bazą 2")
             return
         }
-}
+})
 
 
 
