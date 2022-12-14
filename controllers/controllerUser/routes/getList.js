@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
+const sqlite3 = require("sqlite3")
+const db = new sqlite3.Database("./data.db")
+const sql = "SELECT * FROM user"
 
-router.get("", (req, res) => {
-    const users = [
-                    { name: 'John Doe', email: 'johndoe@gmail.com' },
-                    { name: 'Jane Doe', email: 'janedoe@gmail.com' },
-                    { name: 'Bob Smith', email: 'bobsmith@gmail.com'}
-                    ];
-    res.json(users)
+router.get("", (req, res, next) => {
+    db.all(sql, (err, rows) => {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          res.json(rows)
+        }
+      })
 })
 
 
