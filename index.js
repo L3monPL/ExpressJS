@@ -46,6 +46,17 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     }
 // })
 
+// db.run(`CREATE TABLE champions (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     championName text, 
+//     CONSTRAINT championName_unique UNIQUE (championName)
+//     )`,
+//     (err) => {
+//     if (err) {
+//         console.log("A table has been created")
+//     }
+// })
+
 // db.close((err) => {
 //     if (err) {
 //         return console.error(err.message)
