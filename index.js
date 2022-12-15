@@ -82,8 +82,28 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 // })
 
 
+// db.run(
+//     'DROP TABLE team'
+// )
+
 // db.run(`CREATE TABLE team (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     name text,
+//     created_at text
+//     )`,
+//     (err) => {
+//     if (err) {
+//         console.log("A table has been created")
+//     }
+// })
+
+// db.run(
+//     'DROP TABLE team_user'
+// )
+
+// db.run(`CREATE TABLE team_user (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     team_id INTEGER,
 //     user_id INTEGER,
 //     champion_id INTEGER,
 //     created_at text
