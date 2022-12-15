@@ -60,19 +60,28 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     }
 // })
 
+
+// db.run(
+//     'DROP TABLE match'
+// )
+
+
 // db.run(`CREATE TABLE match (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     team_1_id text,
 //     team_2_id text,
 //     result text,
 //     status text,
-//     created_at text
+//     created_at text,
+//     creator_user_id INTEGER
 //     )`,
 //     (err) => {
 //     if (err) {
 //         console.log("A table has been created")
 //     }
 // })
+
+
 // db.run(`CREATE TABLE team (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     user_id INTEGER,

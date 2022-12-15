@@ -7,11 +7,12 @@ const db = new sqlite3.Database("./data.db")
 
 
 
-route.post("/update", [
-    body("*.userId").not().isEmpty(),
-    body("*.result").not().isEmpty(),
-    body("*.championId").not().isEmpty(),
-    body().isArray(),
+route.post("/create", [
+    body("team_1_id").isEmpty(),
+    body("team_2_id").isEmpty(),
+    body("result").isEmpty(),
+    body("status").isEmpty(),
+    body("creator_user_id").not().isEmpty(),
 ], async (req, res) => {
 
     const errors = validationResult(req)
@@ -21,18 +22,42 @@ route.post("/update", [
     }
 
     let match = req.body
+
+    var team_1_id = null
+    let team_2_id = null
+    let result = null
+    let status = 'utworzono mecz'
+    let creator_user_id = req.body.creator_user_id
+    let created_at = Date()
+
     console.log(match)
 
-    let sql = "INSERT INTO match (list) VALUES (?)"
-    db.run(sql, function (err, result) {
-        if (err){
-            res.status(400).json({"error": err.message})
-            return;
-        }
-        res.json({
-            list: match,
-        })
-    });
+    try {
+    await db.run(`INSERT INTO match (team_1_id,team_2_id,result,status,created_at,creator_user_id) 
+    VALUES (?,?,?,?,?,?)`, [team_1_id, team_2_id, result, status, created_at, creator_user_id])
+    }catch (err) {
+        console.error(err)
+        res.status(500).send("Ups! Coś poszło nie tak")
+        return
+    }
+    res.json({
+        "message": "success",
+        "data": match,
+        "id" : this.lastID
+    })
+
+    // let sql = `INSERT INTO match (team_1_id,team_2_id,result,status,created_at,creator_user_id) 
+    // VALUES ($1,?,?,?,?,?)`
+    // db.run(function (err, result) {
+    //     if (err){
+    //         res.json({"error": err.message})
+    //         return;
+    //     }
+    //     res.json({
+    //         match: match,
+    //     })
+    // });
+    // res.status(200).send()
 })
 
 
