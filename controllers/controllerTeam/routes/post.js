@@ -38,21 +38,52 @@ route.post("/create/:matchId", [
         await db.run(`INSERT INTO team (name,created_at) 
         VALUES (?,?)`, [name_team_1, created_at])
 
-        await db.get("SELECT last_insert_rowid() as id", function (err, row) {
-            team_1 =  row['id']
-            console.log("Id teamu 1: " + team_1)
-       })
+        try {
+            await db.get("SELECT last_insert_rowid() as id", function (err, row) {
+                team_1 =  row['id']
+                console.log("Id teamu 1: " + team_1)
+    
+                var inputData1 = [team_1, matchId]
+    
+                db.run(`UPDATE match SET team_1_id = ? WHERE id = ?`,inputData1, function(err) {
+                    if (err) {
+                      return console.error(err.message);
+                    }
+                    console.log(`Row(s) updated: ${this.changes}`);
+                  
+                  })
+           })
+        } catch (error) {
+            
+        }
+       
 
 
         
 
         await db.run(`INSERT INTO team (name,created_at) 
             VALUES (?,?)`, [name_team_2, created_at])
+            try {
+                await db.get("SELECT last_insert_rowid() as id", function (err, row) {
+                    team_2 =  row['id']
+                    console.log("Id teamu 2: " + team_2)
+                    
+        
+                    var inputData2 = [team_2, matchId]
+        
+                    db.run(`UPDATE match SET team_2_id = ? WHERE id = ?`,inputData2, function(err) {
+                        if (err) {
+                          return console.error(err.message);
+                        }
+                        console.log(`Row(s) updated: ${this.changes}`);
+                      
+                      })
+               })
+            } catch (error) {
+                
+            }
 
-        await db.get("SELECT last_insert_rowid() as id", function (err, row) {
-            team_2 =  row['id']
-            console.log("Id teamu 2: " + team_2)
-       })
+        
             
 
 
