@@ -8,18 +8,23 @@ const db = new sqlite3.Database("./data.db")
 
 route.post("",(req, res, next) => {
     var errors = []
-    if (!req.body.championName) {
+    if (!req.body.name) {
         errors.push("Nie podano postaci")
+    }
+    if (!req.body.image) {
+        errors.push("Nie dodano obrazka")
     }
     if (errors.length) {
         res.status(400).json({"error": errors.join(",")})
         return
     }
     let data = {
-        championName: req.body.championName,
+        name: req.body.name,
+        image: req.body.image,
+        created_at: Date()
     }
-    let sql = "INSERT INTO champions (championName) VALUES (?)"
-    var params =[data.championName]
+    let sql = "INSERT INTO champion (name, image, created_at) VALUES (?,?,?)"
+    var params =[data.name, data.image, data.created_at]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})

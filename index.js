@@ -30,14 +30,15 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 // })
 
 // db.run(
-//     'DROP TABLE match'
+//     'DROP TABLE champion'
 // )
 
 // db.run(`CREATE TABLE user (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     username text, 
+//     name text, 
 //     email text UNIQUE, 
 //     password text, 
+//     created_at text,
 //     CONSTRAINT email_unique UNIQUE (email)
 //     )`,
 //     (err) => {
@@ -46,10 +47,12 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     }
 // })
 
-// db.run(`CREATE TABLE champions (
+// db.run(`CREATE TABLE champion (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     championName text, 
-//     CONSTRAINT championName_unique UNIQUE (championName)
+//     name text, 
+//     image text,
+//     created_at text,
+//     CONSTRAINT name_unique UNIQUE (name)
 //     )`,
 //     (err) => {
 //     if (err) {
@@ -59,7 +62,22 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 
 // db.run(`CREATE TABLE match (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     list text
+//     team_1_id text,
+//     team_2_id text,
+//     result text,
+//     status text,
+//     created_at text
+//     )`,
+//     (err) => {
+//     if (err) {
+//         console.log("A table has been created")
+//     }
+// })
+// db.run(`CREATE TABLE team (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     user_id INTEGER,
+//     champion_id INTEGER,
+//     created_at text
 //     )`,
 //     (err) => {
 //     if (err) {
