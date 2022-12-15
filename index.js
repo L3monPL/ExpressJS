@@ -102,3 +102,12 @@ app.use("/api", PagesController)
 app.listen(8080, function(){
     console.log('Listening at port: 8080')
 })
+
+
+
+
+//  /api/user
+//  /api/champion
+//  /api/champion/image
+//  /api/match
+//  /api/
