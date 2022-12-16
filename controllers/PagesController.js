@@ -11,6 +11,8 @@ const controllerMatch = require('./controllerMatch/controllerMatch')
 
 const controllerTeam = require('./controllerTeam/controllerTeam')
 
+const controllerTeamUser = require('./controllerTeamUser/controllerTeamUser')
+
 
 api.use(morgan('dev'))
 
@@ -22,5 +24,7 @@ api.use('/champion', controllerChampions)
 api.use('/match', controllerMatch)
 
 api.use('/team', controllerTeam)
+
+api.use('/teamUser', controllerTeamUser)
 
 module.exports = api;

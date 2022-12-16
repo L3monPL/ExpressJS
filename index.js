@@ -139,4 +139,5 @@ app.listen(8080, function(){
 //  /api/champion
 //  /api/champion/image
 //  /api/match
-//  /api/
+//  /api/team/create/:id
+//  /api/team/User/setUsers/3vs3
