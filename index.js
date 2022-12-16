@@ -68,9 +68,9 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 
 // db.run(`CREATE TABLE match (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     team_1_id text,
-//     team_2_id text,
-//     result text,
+//     team_1_id INTEGER,
+//     team_2_id INTEGER,
+//     result INTEGER,
 //     status text,
 //     created_at text,
 //     creator_user_id INTEGER
