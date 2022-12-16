@@ -1,8 +1,9 @@
 const express = require('express');
 const route = express.Router();
+const dbc = require('../../../DatabaseController')
 
 const { param, body, validationResult } = require('express-validator')
-const sqlite3 = require("sqlite3")
+const sqlite3 = require("sqlite3").verbose()
 const db = new sqlite3.Database("./data.db")
 
 
@@ -27,98 +28,45 @@ route.post("/create/:matchId", [
     let name_team_1 = 'Team BLUE'
     let name_team_2 = 'Team RED'
 
-    let team_1
-    let team_2
+    var team_1
+    var team_2
 
-    console.log(team)
 
-    console.log(matchId)
+    var inputData1
+    var inputData2
 
     try {
-        await db.run(`INSERT INTO team (name,created_at) 
-        VALUES (?,?)`, [name_team_1, created_at])
 
-        try {
-            await db.get("SELECT last_insert_rowid() as id", function (err, row) {
-                team_1 =  row['id']
-                console.log("Id teamu 1: " + team_1)
-    
-                var inputData1 = [team_1, matchId]
-    
-                db.run(`UPDATE match SET team_1_id = ? WHERE id = ?`,inputData1, function(err) {
-                    if (err) {
-                      return console.error(err.message);
-                    }
-                    console.log(`Row(s) updated: ${this.changes}`);
-                  
-                  })
-           })
-        } catch (error) {
-            
-        }
-       
+        //TEAM 1
+        await dbc.run(db, 'INSERT INTO team (name,created_at) VALUES (?,?)', [name_team_1, created_at])
+        let row = await dbc.get(db, 'SELECT last_insert_rowid() as id', [])
+        team_1 = row['id']
+        inputData1 = [team_1, matchId]
+        console.log(inputData1)
+        await dbc.run(db,`UPDATE match SET team_1_id = ? WHERE id = ?`,inputData1)
+        console.log[team_1]
+
+        //TEAM 2
+        await dbc.run(db, 'INSERT INTO team (name,created_at) VALUES (?,?)', [name_team_2, created_at])
+        row2 = await dbc.get(db, 'SELECT last_insert_rowid() as id', [])
+        team_2 = row2['id']
+        inputData2 = [team_2, matchId]
+        console.log(inputData2)
+        await dbc.run(db,`UPDATE match SET team_2_id = ? WHERE id = ?`,inputData2)
 
 
-        
-
-        await db.run(`INSERT INTO team (name,created_at) 
-            VALUES (?,?)`, [name_team_2, created_at])
-            try {
-                await db.get("SELECT last_insert_rowid() as id", function (err, row) {
-                    team_2 =  row['id']
-                    console.log("Id teamu 2: " + team_2)
-                    
-        
-                    var inputData2 = [team_2, matchId]
-        
-                    db.run(`UPDATE match SET team_2_id = ? WHERE id = ?`,inputData2, function(err) {
-                        if (err) {
-                          return console.error(err.message);
-                        }
-                        console.log(`Row(s) updated: ${this.changes}`);
-                      
-                      })
-               })
-            } catch (error) {
-                
-            }
-
-        
-            
-
-
-        }catch (err) {
-            console.error(err)
-            res.status(500).send("Ups! Coś poszło nie tak")
-            return
+    }catch (err) {
+        console.error(err)
+        res.status(500).send("Ups! Coś poszło nie tak")
+        return
     }
-
-
-
-
-
-    
-
-
-    // try {
-    //     await db.run(`INSERT INTO team (name,created_at) 
-    //     VALUES (?,?)`, [name_team_2, created_at])
-    //     }catch (err) {
-    //         console.error(err)
-    //         res.status(500).send("Ups! Coś poszło nie tak")
-    //         return
-    //     }
-
-
-
 
     res.json({
         "message": "success",
         "data": matchId,
         "id" : this.lastID
     })
-
-
+    db.close()
 })
 
 
