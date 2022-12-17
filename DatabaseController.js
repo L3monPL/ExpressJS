@@ -21,3 +21,15 @@ module.exports.get = (db, sql, param) => {
         })
     })
 }
+
+module.exports.all = (db, sql, param) => {
+    return new Promise((resolve, reject) => {
+        db.all(sql, param, (error, rows) => {
+            if (error) {
+                reject(error)
+            }else{
+                resolve(rows)
+            }
+        })
+    })
+}
