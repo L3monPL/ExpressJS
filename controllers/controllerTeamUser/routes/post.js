@@ -37,6 +37,10 @@ route.post("/setUsers/:numberOfPlayers/:matchId", [
 
     console.log(arrayWithUsers)
 
+    let current_status
+
+    let inputData3
+
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         console.error(errors)
@@ -46,69 +50,49 @@ route.post("/setUsers/:numberOfPlayers/:matchId", [
 
     try {
 
-        let team_row = await dbc.get(db, "SELECT * FROM match WHERE id=?", matchId)
+        let status_row = await dbc.get(db, 'SELECT * FROM match WHERE id = ?', [matchId])
+        current_status = status_row['status'] 
+        
+        console.log(current_status)
 
-        value_team_1 = team_row['team_1_id']
-        value_team_2 = team_row['team_2_id']
+        if (current_status !== 'Oczekuje na dodanie postaci') {
+            let team_row = await dbc.get(db, "SELECT * FROM match WHERE id=?", matchId)
 
-        console.log("Id teamu 1: " + value_team_1)
-        console.log("Id teamu 2: " + value_team_2)
+            value_team_1 = team_row['team_1_id']
+            value_team_2 = team_row['team_2_id']
+
+            console.log("Id teamu 1: " + value_team_1)
+            console.log("Id teamu 2: " + value_team_2)
 
 
-        for (let index = 0; index < numberOfPlayers; index++) {
-            if (index < (numberOfPlayers/2)) {
-                await dbc.run(db, `INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
-                    VALUES (?,?,?,?)`, [value_team_1, arrayWithUsers[index], null, created_at])
+            for (let index = 0; index < numberOfPlayers; index++) {
+                if (index < (numberOfPlayers/2)) {
+                    await dbc.run(db, `INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
+                        VALUES (?,?,?,?)`, [value_team_1, arrayWithUsers[index], null, created_at])
+                }
+                else{
+                    await dbc.run(db, `INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
+                        VALUES (?,?,?,?)`, [value_team_2, arrayWithUsers[index], null, created_at])
+                }
             }
-            else{
-                await dbc.run(db, `INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
-                    VALUES (?,?,?,?)`, [value_team_2, arrayWithUsers[index], null, created_at])
-            }
+
+            console.log('test -1')
+            // await dbc.run(db, `INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
+            // VALUES (?,?)`, [team, created_at])
+            console.log('test 0')
+
+            console.log('test 1')
+            inputData3 = ["Oczekuje na dodanie postaci", matchId]
+            await dbc.run(db,`UPDATE match SET status = ? WHERE id = ?`,inputData3)
+            console.log('test 2')
         }
+        else{
 
-        await dbc.run(db, `INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
-        VALUES (?,?)`, [team, created_at])
-
-
-
-
-
-        // let idTeams = [matchId]
-        // console.log(matchId)
-        // await db.get("SELECT * FROM match WHERE id=?",matchId, function(err, row) {
-        //     if (err) {
-        //       return console.error(err.message);
-        //     }
-        //     value_team_1 = row['team_1_id']
-        //     value_team_2 = row['team_2_id']
-        //     console.log("Id teamu 1: " + value_team_1)
-        //     console.log("Id teamu 2: " + value_team_2)
-
-        //     for (let index = 0; index < numberOfPlayers; index++) {
-
-        //         try {
-        //             if (index < (numberOfPlayers/2)) {
-        //                 db.run(`INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
-        //                VALUES (?,?,?,?)`, [value_team_1, arrayWithUsers[index], null, created_at])
-        //            }
-        //            else{
-        //                 db.run(`INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
-        //                VALUES (?,?,?,?)`, [value_team_2, arrayWithUsers[index], null, created_at])
-        //            }
-                    
-        //         } catch (error) {
-                    
-        //         }
-                
-        //     }
-        //   })
-
-          //if status match = wybrano drużyny
+        }
 
         
 
-        // await db.run(`INSERT INTO team_user (team_id,user_id,champion_id,created_at) 
-        // VALUES (?,?)`, [team, created_at])
+
         
     } catch (error) {
         

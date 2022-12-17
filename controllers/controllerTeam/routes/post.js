@@ -34,6 +34,7 @@ route.post("/create/:matchId", [
 
     var inputData1
     var inputData2
+    var inputData3
 
     let current_status
 
@@ -57,7 +58,7 @@ route.post("/create/:matchId", [
 
             //TEAM 2
             await dbc.run(db, 'INSERT INTO team (name,created_at) VALUES (?,?)', [name_team_2, created_at])
-            row2 = await dbc.get(db, 'SELECT last_insert_rowid() as id', [])
+            let row2 = await dbc.get(db, 'SELECT last_insert_rowid() as id', [])
             team_2 = row2['id']
             inputData2 = [team_2, matchId]
             console.log(inputData2)
