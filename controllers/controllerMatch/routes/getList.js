@@ -24,6 +24,8 @@ let team_2
 var OBJECT_TO_SHOW = [];
 let currentObjectMatch
 
+// let currentObjectTeam
+
 
 router.get("", async (req, res, next) => {
 
@@ -39,23 +41,59 @@ router.get("", async (req, res, next) => {
     OBJECT_TO_SHOW = []
     for (let index = 0; index < match_list.length; index++) {
 
-        let this_1_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [match_list[index].team_1_id])
-        let this_2_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [match_list[index].team_2_id])
+        let this_1_team = await dbc.all(db, "SELECT * FROM team WHERE id = ?", [match_list[index].team_1_id])
+        let this_2_team = await dbc.all(db, "SELECT * FROM team WHERE id = ?", [match_list[index].team_2_id])
   
         team_1 = this_1_team
         team_2 = this_2_team
 
-        if (team_1 == undefined) {
-          team_1 = null
+        console.log("This team 1: "+this_1_team)
+
+        let currentObjectTeam_1
+
+        if (this_1_team !== undefined) {
+          for (let index = 0; index < this_1_team.length; index++) {
+
+            let this_1_team_user = await dbc.all(db, "SELECT * FROM team_user WHERE team_id = ?", [this_1_team[index].id])
+          
+            currentObjectTeam_1 = {
+              id: this_1_team[index].id,
+              name: this_1_team[index].name,
+              users: this_1_team_user,
+              created_at: this_1_team[index].created_at
+            }
+          }
         }
-        if (team_2 == undefined) {
-          team_2 = null
+
+        let currentObjectTeam_2
+
+        if (this_2_team !== undefined) {
+          for (let index = 0; index < this_2_team.length; index++) {
+
+            let this_2_team_user = await dbc.all(db, "SELECT * FROM team_user WHERE team_id = ?", [this_2_team[index].id])
+          
+            currentObjectTeam_2 = {
+              id: this_2_team[index].id,
+              name: this_2_team[index].name,
+              users: this_2_team_user,
+              created_at: this_2_team[index].created_at
+            }
+          }
         }
+
+      
+        if (currentObjectTeam_1 == undefined) {
+          currentObjectTeam_1 = null
+        }
+        if (currentObjectTeam_2 == undefined) {
+          currentObjectTeam_2 = null
+        }
+
   
         currentObjectMatch = {
           id: match_list[index].id,
-          team_1_id: team_1,
-          team_2_id: team_2,
+          team_1: currentObjectTeam_1,
+          team_2: currentObjectTeam_2,
           result: match_list[index].result,
           status: match_list[index].status,
           created_at: match_list[index].created_at,
@@ -69,39 +107,6 @@ router.get("", async (req, res, next) => {
   
       
     }
-      
-
-      // try {
-      // let this_1_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [row.team_1_id])
-      // let this_2_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [row.team_2_id])
-
-      // team_1 = this_1_team
-      // team_2 = this_2_team
-
-      // currentObjectMatch = {
-      //   id: row.id,
-      //   team_1_id: team_1,
-      //   team_2_id: team_2,
-      //   result: row.result,
-      //   status: row.status,
-      //   created_at: row.created_at,
-      //   creator_user_id: row.creator_user_id
-      // }
-
-      // console.log("currentObjectMatch" + currentObjectMatch)
-
-      
-      // OBJECT_TO_SHOW.push(currentObjectMatch)
-
-        
-      // } catch (error) {
-        
-      // }
-
-
-
-      
-/////////////
 
 
   } catch (error) {
