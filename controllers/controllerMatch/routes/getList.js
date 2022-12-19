@@ -27,6 +27,7 @@ let currentObjectMatch
 // let currentObjectTeam
 
 let currentUserTeam_1
+let currentUserTeam_2
 
 
 router.get("", async (req, res, next) => {
@@ -92,11 +93,29 @@ router.get("", async (req, res, next) => {
           for (let index = 0; index < this_2_team.length; index++) {
 
             let this_2_team_user = await dbc.all(db, "SELECT * FROM team_user WHERE team_id = ?", [this_2_team[index].id])
+
+            let team_users_2_Arr = []
+            for (let indexTeamUser_2 = 0; indexTeamUser_2 < this_2_team_user.length; indexTeamUser_2++) {
+
+              let currentUser_team_2 = await dbc.all(db, "SELECT * FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
+              
+              console.log("current value"+this_2_team_user.length)
+              currentUserTeam_2 = {
+                id: this_2_team_user[indexTeamUser_2].id,
+                team_id: this_2_team_user[indexTeamUser_2].team_id,
+                user: currentUser_team_2,
+                champion_id: this_2_team_user[indexTeamUser_2].champion_id,
+                created_at: this_2_team_user[indexTeamUser_2].created_at
+              }
+
+              team_users_2_Arr.push(currentUserTeam_2)
+              
+            }
           
             currentObjectTeam_2 = {
               id: this_2_team[index].id,
               name: this_2_team[index].name,
-              users: this_2_team_user,
+              users: team_users_2_Arr,
               created_at: this_2_team[index].created_at
             }
           }
