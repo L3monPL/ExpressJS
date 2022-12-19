@@ -44,6 +44,13 @@ router.get("", async (req, res, next) => {
   
         team_1 = this_1_team
         team_2 = this_2_team
+
+        if (team_1 == undefined) {
+          team_1 = null
+        }
+        if (team_2 == undefined) {
+          team_2 = null
+        }
   
         currentObjectMatch = {
           id: match_list[index].id,
