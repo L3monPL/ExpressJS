@@ -18,13 +18,15 @@ route.post("",(req, res, next) => {
         res.status(400).json({"error": errors.join(",")})
         return
     }
+    let created_at = Date()
     let data = {
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        created_at: created_at
     }
-    let sql = "INSERT INTO user (username, email, password) VALUES (?,?,?)"
-    var params =[data.email, data.password, data.username]
+    let sql = "INSERT INTO user (username, email, password, created_at) VALUES (?,?,?,?)"
+    var params =[data.username, data.email, data.password, data.created_at]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
