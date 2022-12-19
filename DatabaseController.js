@@ -33,3 +33,15 @@ module.exports.all = (db, sql, param) => {
         })
     })
 }
+
+module.exports.each = (db, sql, param) => {
+    return new Promise((resolve, reject) => {
+        db.each(sql, param, (error, rows) => {
+            if (error) {
+                reject(error)
+            }else{
+                resolve(rows)
+            }
+        })
+    })
+}

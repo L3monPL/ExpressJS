@@ -36,45 +36,69 @@ router.get("", async (req, res, next) => {
     let match_rows = await dbc.all(db, "SELECT * FROM match", [])
     match_list = match_rows
 
-    match_list.forEach(async(row)=>{
+    OBJECT_TO_SHOW = []
+    for (let index = 0; index < match_list.length; index++) {
+
+        let this_1_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [match_list[index].team_1_id])
+        let this_2_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [match_list[index].team_2_id])
+  
+        team_1 = this_1_team
+        team_2 = this_2_team
+  
+        currentObjectMatch = {
+          id: match_list[index].id,
+          team_1_id: team_1,
+          team_2_id: team_2,
+          result: match_list[index].result,
+          status: match_list[index].status,
+          created_at: match_list[index].created_at,
+          creator_user_id: match_list[index].creator_user_id
+        }
+  
+        console.log("currentObjectMatch" + currentObjectMatch)
+  
+        
+        OBJECT_TO_SHOW.push(currentObjectMatch)
+  
+      
+    }
       
 
-      try {
-        //wydaje mi się że tutaj sql do szukanie id teamu 
-      let this_1_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [row.team_1_id])
-      let this_2_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [row.team_2_id])
+      // try {
+      // let this_1_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [row.team_1_id])
+      // let this_2_team = await dbc.get(db, "SELECT * FROM team WHERE id = ?", [row.team_2_id])
 
-      team_1 = this_1_team
-      team_2 = this_2_team
+      // team_1 = this_1_team
+      // team_2 = this_2_team
 
-      currentObjectMatch = {
-        id: row.id,
-        team_1_id: team_1,
-        team_2_id: team_2,
-        result: row.result,
-        status: row.status,
-        created_at: row.created_at,
-        creator_user_id: row.creator_user_id
-      }
+      // currentObjectMatch = {
+      //   id: row.id,
+      //   team_1_id: team_1,
+      //   team_2_id: team_2,
+      //   result: row.result,
+      //   status: row.status,
+      //   created_at: row.created_at,
+      //   creator_user_id: row.creator_user_id
+      // }
 
-      console.log("currentObjectMatch" + currentObjectMatch)
+      // console.log("currentObjectMatch" + currentObjectMatch)
 
       
-      OBJECT_TO_SHOW.push(currentObjectMatch)
+      // OBJECT_TO_SHOW.push(currentObjectMatch)
 
         
-      } catch (error) {
+      // } catch (error) {
         
-      }
+      // }
 
 
 
       
-   });
+/////////////
 
 
   } catch (error) {
-    console.error(err)
+    console.error(error)
     res.status(500).send("Ups! Coś poszło nie tak")
     return
   }
@@ -83,7 +107,7 @@ router.get("", async (req, res, next) => {
 
   res.json(OBJECT_TO_SHOW)
   // db.close()
-  OBJECT_TO_SHOW = []
+  // OBJECT_TO_SHOW = []
 })
 
 
