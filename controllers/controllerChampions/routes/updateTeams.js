@@ -28,10 +28,10 @@ route.post("/updateChampionsToTeams/:matchId", [
     champions_team_1 = req.body.team_1.champions
     champions_team_2 = req.body.team_2.champions
 
-    console.log(team_1)
-    console.log(team_2)
-    console.log(champions_team_1)
-    console.log(champions_team_2)
+    // console.log(team_1)
+    // console.log(team_2)
+    // console.log(champions_team_1)
+    // console.log(champions_team_2)
     
 
     let arrayWithChampions = [...champions_team_1, ...champions_team_2]
@@ -94,7 +94,7 @@ route.post("/updateChampionsToTeams/:matchId", [
                     }
                 }   
 
-                console.log("LISTA " + team_users_1_Arr)
+                console.log("LISTA team_1" + team_users_1_Arr)
 
 
                 for (let index = 0; index < this_2_team.length; index++) {
@@ -107,11 +107,13 @@ route.post("/updateChampionsToTeams/:matchId", [
         
                       team_users_2_Arr.push(currentUser_team_2.id)
 
-                      console.log(currentUser_team_2.id)
+                      console.log("TEST !@# "+currentUser_team_2.id)
                     }
                 }   
 
-                console.log("LISTA " + team_users_2_Arr)
+                console.log("LISTA team_2" + team_users_2_Arr)
+
+                let team_1_and_2Arr = [...team_users_1_Arr,...team_users_2_Arr]
 
 
 
@@ -138,10 +140,12 @@ route.post("/updateChampionsToTeams/:matchId", [
 
             for (let index = 0; index < numberOfChampions; index++) {
                 if (index < (numberOfChampions/2)) {
-                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ?`, [arrayWithChampions[index], team_users_1_Arr[index]])
+                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ? AND team_id = ?`, [arrayWithChampions[index], team_1_and_2Arr[index], value_team_1])
+                    console.log("TESTUJEMY " + team_users_1_Arr[index])
                 }
                 else{
-                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE team_id = ?`, [arrayWithChampions[index], team_users_2_Arr[index]])
+                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ? AND team_id = ?`, [arrayWithChampions[index], team_1_and_2Arr[index], value_team_2])
+                    console.log("TESTUJEMY " + team_users_2_Arr[index])
                 }
             }
    
@@ -162,7 +166,10 @@ route.post("/updateChampionsToTeams/:matchId", [
 
 
         
-    } catch (error) {
+    } catch (err) {
+        console.error(err)
+        res.status(500).send("Ups! Coś poszło nie tak")
+        return
         
     }
     res.json({
