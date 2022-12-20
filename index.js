@@ -118,6 +118,22 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     }
 // })
 
+// db.run(
+//     'DROP TABLE stats'
+// )
+
+// db.run(`CREATE TABLE stats (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     user_id INTEGER,
+//     wins INTEGER,
+//     lost INTEGER
+//     )`,
+//     (err) => {
+//     if (err) {
+//         console.log("A table has been created")
+//     }
+// })
+
 // db.close((err) => {
 //     if (err) {
 //         return console.error(err.message)
