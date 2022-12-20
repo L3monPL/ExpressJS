@@ -21,6 +21,9 @@ route.put("/result/:matchId", [
 
     let match_rows = await dbc.all(db, "SELECT * FROM match WHERE id = ?", [matchId])
     match_list = match_rows
+    let status_row = await dbc.get(db, 'SELECT * FROM match WHERE id = ?', [matchId])
+
+    var current_status = status_row['status'] 
 
     for (let index = 0; index < match_list.length; index++) {
 
@@ -78,20 +81,54 @@ route.put("/result/:matchId", [
         console.log("Team 2 UsersIdArr " + team_users_2_Arr)   
 
 
-        if (result == "team1") {
-            console.log("wygrywa team 1")
-            
+        if (current_status == "Oczekuje na podanie wyniku") {
+            if (result == "team1") {
+                console.log("wygrywa team 1")
+                for (let indexTeam_1 = 0; indexTeam_1 < team_users_1_Arr.length; indexTeam_1++) {
+                    let currentUserWin = await dbc.get(db,`SELECT * FROM stats WHERE user_id = ?`,[team_users_1_Arr[indexTeam_1]])
+                    let currentUserWinsStats = currentUserWin["wins"]
+                    let currentUserWinId = currentUserWin["user_id"]
+                    console.log(currentUserWinsStats)
+                    await dbc.run(db,`UPDATE stats SET wins = ? WHERE user_id = ?`,[currentUserWinsStats + 1, currentUserWinId])
+                }
+                for (let indexTeam_2 = 0; indexTeam_2 < team_users_2_Arr.length; indexTeam_2++) {
+                    let currentUserLost = await dbc.get(db,`SELECT * FROM stats WHERE user_id = ?`,[team_users_2_Arr[indexTeam_2]])
+                    let currentUserLostStats = currentUserLost["lost"]
+                    let currentUserLostId = currentUserLost["user_id"]
+                    console.log(currentUserLostStats)
+                    await dbc.run(db,`UPDATE stats SET lost = ? WHERE user_id = ?`,[currentUserLostStats + 1, currentUserLostId])
+                }
+                let input = ["TEAM 1", matchId]
+                await dbc.run(db,`UPDATE match SET result = ? WHERE id = ?`,input)
+    
+            }
+            else if (result == "team2") {
+                console.log("wygrywa team 2")
+                for (let indexTeam_1 = 0; indexTeam_1 < team_users_1_Arr.length; indexTeam_1++) {
+                    let currentUserLost = await dbc.get(db,`SELECT * FROM stats WHERE user_id = ?`,[team_users_1_Arr[indexTeam_1]])
+                    let currentUserLostStats = currentUserLost["lost"]
+                    let currentUserLostId = currentUserLost["user_id"]
+                    console.log(currentUserLostStats)
+                    await dbc.run(db,`UPDATE stats SET lost = ? WHERE user_id = ?`,[currentUserLostStats + 1, currentUserLostId])
+                }
+                for (let indexTeam_2 = 0; indexTeam_2 < team_users_2_Arr.length; indexTeam_2++) {
+                    let currentUserWin = await dbc.get(db,`SELECT * FROM stats WHERE user_id = ?`,[team_users_2_Arr[indexTeam_2]])
+                    let currentUserWinsStats = currentUserWin["wins"]
+                    let currentUserWinId = currentUserWin["user_id"]
+                    console.log(currentUserWinsStats)
+                    await dbc.run(db,`UPDATE stats SET wins = ? WHERE user_id = ?`,[currentUserWinsStats + 1, currentUserWinId])
+                }
+                let input = ["TEAM 2", matchId]
+                await dbc.run(db,`UPDATE match SET result = ? WHERE id = ?`,input)
+            }
+    
+            let inputData3 = ["Mecz zakończony", matchId]
+            await dbc.run(db,`UPDATE match SET status = ? WHERE id = ?`,inputData3)
+        } else {
+            // res.send("Mecz zakończony")
         }
-        else if (result == "team2") {
-            console.log("wygrywa team 2")
-        }
 
-
-
-
-
-
-
+        
 
     }
   } catch (error) {

@@ -50,7 +50,7 @@ route.post("/updateChampionsToTeams/:matchId", [
         
         console.log(current_status)
 
-        if (current_status !== 'Oczekuje na podanie wyniku    TEST USUN') {
+        if (current_status == 'Oczekuje na dodanie postaci') {
 
             let team_row = await dbc.get(db, "SELECT * FROM match WHERE id=?", matchId)
 

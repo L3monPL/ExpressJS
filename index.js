@@ -37,20 +37,6 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     'DROP TABLE user'
 // )
 
-// db.run(`CREATE TABLE user (
-//     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     username text, 
-//     email text UNIQUE, 
-//     password text, 
-//     created_at text,
-//     CONSTRAINT email_unique UNIQUE (email)
-//     )`,
-//     (err) => {
-//     if (err) {
-//         console.log("A table has been created")
-//     }
-// })
-
 // db.run(`CREATE TABLE champion (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     name text, 
@@ -65,6 +51,21 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 // })
 
 
+
+// db.run(`CREATE TABLE user (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     username text, 
+//     email text UNIQUE, 
+//     password text, 
+//     created_at text,
+//     CONSTRAINT email_unique UNIQUE (email)
+//     )`,
+//     (err) => {
+//     if (err) {
+//         console.log("A table has been created")
+//     }
+// })
+
 // db.run(
 //     'DROP TABLE match'
 // )
@@ -74,7 +75,7 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     team_1_id INTEGER,
 //     team_2_id INTEGER,
-//     result INTEGER,
+//     result text,
 //     status text,
 //     created_at text,
 //     creator_user_id INTEGER

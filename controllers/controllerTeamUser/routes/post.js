@@ -55,7 +55,7 @@ route.post("/setUsers/:numberOfPlayers/:matchId", [
         
         console.log(current_status)
 
-        if (current_status !== 'Oczekuje na dodanie postaci') {
+        if (current_status == 'Oczekuje na dodanie graczy') {
             let team_row = await dbc.get(db, "SELECT * FROM match WHERE id=?", matchId)
 
             value_team_1 = team_row['team_1_id']
