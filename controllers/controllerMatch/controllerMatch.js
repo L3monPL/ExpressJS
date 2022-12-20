@@ -8,6 +8,8 @@ const getList = require('./routes/getList')
 
 const getMatchById = require('./routes/getMatchById')
 
+const postResult = require('./routes/postResult')
+
 
 
 
@@ -15,6 +17,8 @@ const getMatchById = require('./routes/getMatchById')
 
 
 controllerUser.use('/', post)
+
+controllerUser.use('/', postResult)
 
 controllerUser.use('/', getList)
 
