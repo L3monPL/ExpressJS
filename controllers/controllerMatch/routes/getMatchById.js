@@ -15,11 +15,13 @@ let currentObjectMatch
 let currentUserTeam_1
 let currentUserTeam_2
 
-router.get("", async (req, res, next) => {
+router.get("/:matchId", async (req, res, next) => {
+
+    let matchId = req.params.matchId
 
   try {
 
-    let match_rows = await dbc.all(db, "SELECT * FROM match", [])
+    let match_rows = await dbc.all(db, "SELECT * FROM match WHERE id = ?", [matchId])
     match_list = match_rows
 
     OBJECT_TO_SHOW = []
@@ -43,15 +45,15 @@ router.get("", async (req, res, next) => {
             let team_users_1_Arr = []
             for (let indexTeamUser_1 = 0; indexTeamUser_1 < this_1_team_user.length; indexTeamUser_1++) {
 
-              let currentUser_team_1 = await dbc.all(db, "SELECT * FROM user WHERE id = ?", [this_1_team_user[indexTeamUser_1].user_id])
+              let currentUser_team_1 = await dbc.all(db, "SELECT id, username, email FROM user WHERE id = ?", [this_1_team_user[indexTeamUser_1].user_id])
               
               console.log("current value"+this_1_team_user.length)
               currentUserTeam_1 = {
-                id: this_1_team_user[indexTeamUser_1].id,
-                team_id: this_1_team_user[indexTeamUser_1].team_id,
-                user: currentUser_team_1,
+                // id: this_1_team_user[indexTeamUser_1].id,
+                // team_id: this_1_team_user[indexTeamUser_1].team_id,
                 champion_id: this_1_team_user[indexTeamUser_1].champion_id,
-                created_at: this_1_team_user[indexTeamUser_1].created_at
+                created_at: this_1_team_user[indexTeamUser_1].created_at,
+                user: currentUser_team_1
               }
 
               team_users_1_Arr.push(currentUserTeam_1)
@@ -78,15 +80,15 @@ router.get("", async (req, res, next) => {
             let team_users_2_Arr = []
             for (let indexTeamUser_2 = 0; indexTeamUser_2 < this_2_team_user.length; indexTeamUser_2++) {
 
-              let currentUser_team_2 = await dbc.all(db, "SELECT * FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
+              let currentUser_team_2 = await dbc.all(db, "SELECT id, username, email FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
               
               console.log("current value"+this_2_team_user.length)
               currentUserTeam_2 = {
-                id: this_2_team_user[indexTeamUser_2].id,
-                team_id: this_2_team_user[indexTeamUser_2].team_id,
-                user: currentUser_team_2,
+                // id: this_2_team_user[indexTeamUser_2].id,
+                // team_id: this_2_team_user[indexTeamUser_2].team_id,
                 champion_id: this_2_team_user[indexTeamUser_2].champion_id,
-                created_at: this_2_team_user[indexTeamUser_2].created_at
+                created_at: this_2_team_user[indexTeamUser_2].created_at,
+                user: currentUser_team_2,
               }
 
               team_users_2_Arr.push(currentUserTeam_2)
