@@ -98,12 +98,10 @@ route.post("/updateChampionsToTeams/:matchId", [
             ////////////////////////////////////////////////////////
             for (let index = 0; index < numberOfChampions; index++) {
                 if (index < (numberOfChampions/2)) {
-                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ? AND team_id = ?`, [arrayWithChampions[index], team_1_and_2Arr[index], value_team_1])
-                    console.log("TESTUJEMY " + team_users_1_Arr[index])
+                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ?`, [arrayWithChampions[index], team_users_1_Arr[index]])
                 }
                 else{
-                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ? AND team_id = ?`, [arrayWithChampions[index], team_1_and_2Arr[index], value_team_2])
-                    console.log("TESTUJEMY " + team_users_2_Arr[index])
+                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE team_id = ?`, [arrayWithChampions[index], team_users_2_Arr[index]])
                 }
             }
             ////////////////////////////////////////////////////////
