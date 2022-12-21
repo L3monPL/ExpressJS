@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const app = express()
 const sqlite3 = require("sqlite3").verbose()
 
+const PORT = process.env.PORT || 3030;
+
 const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
     if(err) return console.error(err.message)
 
@@ -149,9 +151,9 @@ app.use(bodyParser.json())
 
 app.use("/api", PagesController)
 
-app.listen(8080, function(){
-    console.log('Listening at port: 8080')
-})
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+  });
 
 
 
