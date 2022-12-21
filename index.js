@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const sqlite3 = require("sqlite3").verbose()
+const cors = require('cors');
 
 const PORT = process.env.PORT || 3030;
 
@@ -148,12 +149,10 @@ const PagesController = require('./controllers/PagesController')
 app.use(bodyParser.text())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+app.use(cors())
 
 app.use("/api", PagesController)
 
-var cors = require('cors');
-
-app.use(cors());
 
 app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
