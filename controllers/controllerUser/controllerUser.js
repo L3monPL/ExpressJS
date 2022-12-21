@@ -10,6 +10,8 @@ const getUserById = require('./routes/getUserById')
 
 const deleteUser = require('./routes/deleteUser')
 
+const login = require('./routes/login')
+
 
 
 
@@ -22,5 +24,7 @@ controllerUser.use('/', getList)
 controllerUser.use('/', getUserById)
 
 controllerUser.use('/', deleteUser)
+
+controllerUser.use('/', login)
 
 module.exports = controllerUser;

@@ -151,6 +151,10 @@ app.use(bodyParser.json())
 
 app.use("/api", PagesController)
 
+var cors = require('cors');
+
+app.use(cors());
+
 app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
   });
