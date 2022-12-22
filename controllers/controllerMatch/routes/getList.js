@@ -46,11 +46,14 @@ router.get("", async (req, res, next) => {
               let currentUser_team_1 = await dbc.all(db, "SELECT * FROM user WHERE id = ?", [this_1_team_user[indexTeamUser_1].user_id])
               
               console.log("current value"+this_1_team_user.length)
+
+              let currentUserChampion = await dbc.get(db, "SELECT * FROM champion WHERE id = ?", [this_1_team_user[indexTeamUser_1].champion_id])
+
               currentUserTeam_1 = {
-                id: this_1_team_user[indexTeamUser_1].id,
-                team_id: this_1_team_user[indexTeamUser_1].team_id,
+                // id: this_1_team_user[indexTeamUser_1].id,
+                // team_id: this_1_team_user[indexTeamUser_1].team_id,
                 user: currentUser_team_1,
-                champion_id: this_1_team_user[indexTeamUser_1].champion_id,
+                champion: currentUserChampion,
                 created_at: this_1_team_user[indexTeamUser_1].created_at
               }
 
@@ -81,11 +84,13 @@ router.get("", async (req, res, next) => {
               let currentUser_team_2 = await dbc.all(db, "SELECT * FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
               
               console.log("current value"+this_2_team_user.length)
+
+              let currentUserChampion = await dbc.get(db, "SELECT * FROM champion WHERE id = ?", [this_2_team_user[indexTeamUser_2].champion_id])
               currentUserTeam_2 = {
-                id: this_2_team_user[indexTeamUser_2].id,
-                team_id: this_2_team_user[indexTeamUser_2].team_id,
+                // id: this_2_team_user[indexTeamUser_2].id,
+                // team_id: this_2_team_user[indexTeamUser_2].team_id,
                 user: currentUser_team_2,
-                champion_id: this_2_team_user[indexTeamUser_2].champion_id,
+                champion: currentUserChampion,
                 created_at: this_2_team_user[indexTeamUser_2].created_at
               }
 
