@@ -10,6 +10,10 @@ const getMatchById = require('./routes/getMatchById')
 
 const postResult = require('./routes/postResult')
 
+const getListEndMatch = require('./routes/getListEndMatch')
+
+const getCurrentLastMatch = require('./routes/getCurrentLastMatch')
+
 
 
 
@@ -23,6 +27,10 @@ controllerUser.use('/', postResult)
 controllerUser.use('/', getList)
 
 controllerUser.use('/', getMatchById)
+
+controllerUser.use('/', getListEndMatch)
+
+controllerUser.use('/', getCurrentLastMatch)
 
 
 module.exports = controllerUser;
