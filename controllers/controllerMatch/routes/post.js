@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-
+const dbc = require('../../../DatabaseController')
 const { param, body, validationResult } = require('express-validator')
 const sqlite3 = require("sqlite3")
 const db = new sqlite3.Database("./data.db")
@@ -14,6 +14,14 @@ route.post("/create", [
     body("status").isEmpty(),
     body("creator_user_id").not().isEmpty(),
 ], async (req, res) => {
+
+    let match_rows = await dbc.all(db, "SELECT * FROM match WHERE status != ?", ["Mecz zakończony"])
+
+    console.log(match_rows)
+    if (match_rows) {
+        res.status(405).json("Nie można rozpocząć kolejnego meczu gdy poprzedni nie został zakończony")
+        return
+    }
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

@@ -15,7 +15,7 @@ let currentObjectMatch
 let currentUserTeam_1
 let currentUserTeam_2
 
-router.get("/match/currentMatch", async (req, res, next) => {
+router.get("/edit/currentMatch", async (req, res, next) => {
 
   try {
 
