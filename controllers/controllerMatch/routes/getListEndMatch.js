@@ -19,7 +19,7 @@ router.get("/end/list", async (req, res, next) => {
 
   try {
 
-    let match_rows = await dbc.all(db, "SELECT * FROM match WHERE status = ?", ["Mecz zakończony"])
+    let match_rows = await dbc.all(db, "SELECT * FROM match WHERE status = ? ORDER BY id DESC", ["Mecz zakończony"])
     match_list = match_rows
 
     OBJECT_TO_SHOW = []
