@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const sqlite3 = require("sqlite3").verbose()
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 3030;
 
@@ -155,7 +156,11 @@ const PagesController = require('./controllers/PagesController')
 app.use(bodyParser.text())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cookieParser())
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:4200', 'http://localhost:3030']
+}))
 
 app.use("/api", PagesController)
 

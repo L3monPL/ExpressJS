@@ -62,6 +62,7 @@ route.post("/login", [
         res.status(500).send("Ups! Coś poszło nie tak")
         return
     }
+        res.cookie('jwt', token, {httpOnly: true})
         res.json({ token })
     });
 

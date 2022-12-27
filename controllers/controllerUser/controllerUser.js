@@ -12,6 +12,7 @@ const deleteUser = require('./routes/deleteUser')
 
 const login = require('./routes/login')
 
+const getAuth = require('./routes/getAuth')
 
 
 
@@ -26,5 +27,7 @@ controllerUser.use('/', getUserById)
 controllerUser.use('/', deleteUser)
 
 controllerUser.use('/', login)
+
+controllerUser.use('/', getAuth)
 
 module.exports = controllerUser;
