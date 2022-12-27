@@ -59,12 +59,13 @@ route.post("/updateChampionsToTeams/:matchId", [
 
             console.log("Id teamu 1: " + value_team_1)
             console.log("Id teamu 2: " + value_team_2)
-            ////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////
             let this_1_team = await dbc.all(db, "SELECT * FROM team WHERE id = ?", [value_team_1])
             let this_2_team = await dbc.all(db, "SELECT * FROM team WHERE id = ?", [value_team_2])
           
             team_1 = this_1_team
             team_2 = this_2_team
+            ////////////////////////////////////////////////////////////////////////////////
         
 
             for (let index = 0; index < this_1_team.length; index++) {
@@ -82,13 +83,13 @@ route.post("/updateChampionsToTeams/:matchId", [
             console.log("LISTA team_1" + team_users_1_Arr)
 
             for (let index = 0; index < this_2_team.length; index++) {
+
                 let this_2_team_user = await dbc.all(db, "SELECT * FROM team_user WHERE team_id = ?", [this_2_team[index].id])
                 var team_users_2_Arr = []
 
                 for (let indexTeamUser_2 = 0; indexTeamUser_2 < this_2_team_user.length; indexTeamUser_2++) {
                     let currentUser_team_2 = await dbc.get(db, "SELECT id FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
                     team_users_2_Arr.push(currentUser_team_2.id)
-                    console.log("TEST !@# "+currentUser_team_2.id)
                 }
             }   
 
@@ -97,12 +98,11 @@ route.post("/updateChampionsToTeams/:matchId", [
             let team_1_and_2Arr = [...team_users_1_Arr,...team_users_2_Arr]
             ////////////////////////////////////////////////////////
             for (let index = 0; index < numberOfChampions; index++) {
-                if (index < (numberOfChampions/2)) {
-                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ?`, [arrayWithChampions[index], team_users_1_Arr[index]])
-                }
-                else{
-                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE team_id = ?`, [arrayWithChampions[index], team_users_2_Arr[index]])
-                }
+                
+                    await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE user_id = ?`, [arrayWithChampions[index], team_1_and_2Arr[index]])
+               
+                    // await dbc.run(db, `UPDATE team_user SET champion_id = ? WHERE team_id = ?`, [arrayWithChampions[index], team_1_and_2Arr[index]])
+           
             }
             ////////////////////////////////////////////////////////
             inputData3 = ["Oczekuje na podanie wyniku", matchId]

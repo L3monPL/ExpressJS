@@ -5,7 +5,7 @@ const { param, body, validationResult } = require('express-validator')
 const sqlite3 = require("sqlite3")
 const db = new sqlite3.Database("./data.db")
 
-
+let arrayMatchList = []
 
 route.post("/create", [
     body("team_1_id").isEmpty(),
@@ -15,13 +15,34 @@ route.post("/create", [
     body("creator_user_id").not().isEmpty(),
 ], async (req, res) => {
 
-    let match_rows = await dbc.all(db, "SELECT * FROM match WHERE status != ?", ["Mecz zakończony"])
+    let testUndefinedMatchId
 
-    console.log(match_rows)
-    if (match_rows) {
-        res.status(405).json("Nie można rozpocząć kolejnego meczu gdy poprzedni nie został zakończony")
-        return
+    let allMatchList = await dbc.get(db, "SELECT * FROM match")
+    arrayMatchList = allMatchList
+
+    if (allMatchList == undefined) {
+        testUndefinedMatchId = 0
+    }else{
+        testUndefinedMatchId = allMatchList['id']
     }
+
+    
+
+    console.log(testUndefinedMatchId)
+
+    if (testUndefinedMatchId > 0) {
+
+        console.log("jest mecz")
+        let match_rows = await dbc.all(db, "SELECT * FROM match WHERE status != ?", ["Mecz zakończony"])
+
+        // console.log(match_rows)
+        if (match_rows) {
+            res.status(405).json("Nie można rozpocząć kolejnego meczu gdy poprzedni nie został zakończony")
+            return
+        }
+    }
+
+    
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

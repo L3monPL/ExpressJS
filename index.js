@@ -36,6 +36,12 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     'DROP TABLE champion'
 // )
 
+
+
+
+
+
+
 // db.run(
 //     'DROP TABLE user'
 // )
