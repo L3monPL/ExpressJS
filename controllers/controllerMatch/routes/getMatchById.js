@@ -45,7 +45,7 @@ router.get("/:matchId", async (req, res, next) => {
             let team_users_1_Arr = []
             for (let indexTeamUser_1 = 0; indexTeamUser_1 < this_1_team_user.length; indexTeamUser_1++) {
 
-              let currentUser_team_1 = await dbc.all(db, "SELECT id, username, email FROM user WHERE id = ?", [this_1_team_user[indexTeamUser_1].user_id])
+              let currentUser_team_1 = await dbc.get(db, "SELECT id, username, email FROM user WHERE id = ?", [this_1_team_user[indexTeamUser_1].user_id])
               
               console.log("current value"+this_1_team_user.length)
 
@@ -83,7 +83,7 @@ router.get("/:matchId", async (req, res, next) => {
             let team_users_2_Arr = []
             for (let indexTeamUser_2 = 0; indexTeamUser_2 < this_2_team_user.length; indexTeamUser_2++) {
 
-              let currentUser_team_2 = await dbc.all(db, "SELECT id, username, email FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
+              let currentUser_team_2 = await dbc.get(db, "SELECT id, username, email FROM user WHERE id = ?", [this_2_team_user[indexTeamUser_2].user_id])
               
               console.log("current value"+this_2_team_user.length)
 
