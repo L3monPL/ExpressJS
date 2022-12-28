@@ -10,6 +10,8 @@ const getImageList = require('./routes/getImageList')
 
 const updateChampionsToTeams = require('./routes/updateTeams')
 
+const getChampionsPicked = require('./routes/getChampionsPicked')
+
 
 
 
@@ -22,6 +24,8 @@ controllerChampions.use('/', post)
 controllerChampions.use('/', getImageList)
 
 controllerChampions.use('/', updateChampionsToTeams)
+
+controllerChampions.use('/', getChampionsPicked)
 
 
 module.exports = controllerChampions;
