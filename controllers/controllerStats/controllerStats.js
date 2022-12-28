@@ -2,10 +2,11 @@ const express = require('express');
 
 const controllerStats = express.Router();
 
-// const post = require('./routes/post')
+const getStatsFromCurrnetUser = require('./routes/getStatsFromCurrnetUser')
 
 const getList = require('./routes/getList')
 
+const getRanking = require('./routes/getRanking')
 
 
 
@@ -13,9 +14,12 @@ const getList = require('./routes/getList')
 
 
 
-// controllerTeam.use('/', post)
+
+controllerStats.use('/', getStatsFromCurrnetUser)
 
 controllerStats.use('/', getList)
+
+controllerStats.use('/', getRanking)
 
 
 
