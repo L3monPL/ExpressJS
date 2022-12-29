@@ -164,6 +164,7 @@ app.use(cors({
 //comment
 
 app.use("/api", PagesController)
+app.set("trust proxy", true)
 
 
 app.listen(PORT, () => {
