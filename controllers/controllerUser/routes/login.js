@@ -64,7 +64,7 @@ route.post("/login", [
         return
     }
         res.cookie('__session', token, {
-            httpOnly: true,
+            httpOnly: false,
             maxAge: 10000000000000,
         })
         res.json({ token })
