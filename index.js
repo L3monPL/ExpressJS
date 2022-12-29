@@ -37,16 +37,6 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //     'DROP TABLE champion'
 // )
 
-
-
-
-
-
-
-// db.run(
-//     'DROP TABLE user'
-// )
-
 // db.run(`CREATE TABLE champion (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     name text, 
@@ -61,6 +51,15 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 // })
 
 
+
+
+
+
+
+
+// db.run(
+//   'DROP TABLE user'
+// )
 
 // db.run(`CREATE TABLE user (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
