@@ -57,9 +57,16 @@ route.post("/login", [
         }
 
         var token = jwt.sign(payload, ACCESS_TOKEN)
+
+        app.use((req, res, next) => {
+            res.header('Access-Control-Allow-Credentials', true);
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+            next();
+          });
     } catch (error) {
         console.error(error)
-        res.status(500).send("Ups! Coś poszło nie tak...")
+        res.status(500).send(error)
         return
     }
         res.cookie('__session', token, {

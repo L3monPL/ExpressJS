@@ -149,6 +149,12 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //         return console.error(err.message)
 //     }
 // })
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  next();
+});
 
 const PagesController = require('./controllers/PagesController')
 
