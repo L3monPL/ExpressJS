@@ -14,7 +14,9 @@ router.get("/auth/currentUser", async (req, res, next) => {
 
     try {
 
-        var cookie = req.cookies['jwt']
+        var cookie = req.cookies['__session']
+
+        res.setHeader('Cache-Control', 'private');
 
         var claims = jwt.verify(cookie, ACCESS_TOKEN)
 
