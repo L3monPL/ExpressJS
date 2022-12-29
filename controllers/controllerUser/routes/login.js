@@ -63,8 +63,10 @@ route.post("/login", [
         return
     }
         res.cookie('__session', token, {
-            httpOnly: true,
+            // httpOnly: true,
             maxAge: 10000000000000,
+            httpOnly: false,
+            sameSite: 'none'
         })
         res.json({ token })
     });
