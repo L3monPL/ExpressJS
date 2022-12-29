@@ -158,7 +158,8 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:4200', 'http://localhost:3030', 'https://expressjslol.onrender.com/api']
+  origin: true
+  // origin: ['http://localhost:4200', 'http://localhost:3030', 'https://expressjslol.onrender.com/api']
 }))
 //comment
 
