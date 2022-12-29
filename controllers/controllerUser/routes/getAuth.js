@@ -28,7 +28,8 @@ router.get("/auth/currentUser", async (req, res, next) => {
         
     } catch (error) {
         console.error(error)
-        res.status(401).send({error: "Ups! Coś poszło nie tak", info: claims, info2: user})
+        // res.status(401).send({error: "Ups! Coś poszło nie tak"})
+        res.status(401).send(error)
         return
     }
 
