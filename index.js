@@ -149,12 +149,12 @@ const db = new sqlite3.Database("./data.db", sqlite3.OPEN_READWRITE, (err) => {
 //         return console.error(err.message)
 //     }
 // })
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+//   next();
+// });
 
 const PagesController = require('./controllers/PagesController')
 
@@ -164,9 +164,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
   credentials: true,
-  withCredentials: true,
   sameSite: "none",
-            secure: "false",
   origin: ['http://localhost:4200', 'http://localhost:3030', 'https://expressjslol.onrender.com/api', 'http://expressjslol.onrender.com/api', 'https://expressjslol.onrender.com', 'http://expressjslol.onrender.com', 'https://lol-tournament-daw.web.app']
 }))
 //comment
