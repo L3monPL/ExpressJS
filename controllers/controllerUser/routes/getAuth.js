@@ -16,8 +16,6 @@ router.get("/auth/currentUser", async (req, res, next) => {
 
         var cookie = req.cookies['__session']
 
-        res.setHeader('Cache-Control', 'private');
-
         var claims = jwt.verify(cookie, ACCESS_TOKEN)
 
         if (!claims) {
@@ -30,7 +28,7 @@ router.get("/auth/currentUser", async (req, res, next) => {
         
     } catch (error) {
         console.error(error)
-        res.status(401).send("Ups! Coś poszło nie tak")
+        res.status(401).send({error: "Ups! Coś poszło nie tak", info: claims, info2: user})
         return
     }
 
