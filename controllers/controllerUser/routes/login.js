@@ -64,7 +64,8 @@ route.post("/login", [
     }
         res.cookie('jwt', token, {
             httpOnly: true,
-            maxAge: 10000000000000
+            maxAge: 10000000000000,
+            secure: true
         })
         res.json({ token })
     });
