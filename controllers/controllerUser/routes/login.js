@@ -59,7 +59,7 @@ route.post("/login", [
         var token = jwt.sign(payload, ACCESS_TOKEN)
     } catch (error) {
         console.error(error)
-        res.status(500).send("Ups! Coś poszło nie tak")
+        res.status(500).send("Ups! Coś poszło nie tak...")
         return
     }
         res.cookie('__session', token, {
