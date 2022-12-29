@@ -164,7 +164,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
   credentials: true,
-  sameSite: "none",
+  sameSite: 'none', secure: true,
   origin: ['http://localhost:4200', 'http://localhost:3030', 'https://expressjslol.onrender.com/api', 'http://expressjslol.onrender.com/api', 'https://expressjslol.onrender.com', 'http://expressjslol.onrender.com', 'https://lol-tournament-daw.web.app']
 }))
 //comment
