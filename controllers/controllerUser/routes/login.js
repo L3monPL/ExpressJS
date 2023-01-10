@@ -41,7 +41,7 @@ route.post("/login", [
         return;
     }
     try {
-        var currentUserLoginPassword = await dbc.get(db, 'SELECT password, username, id FROM user WHERE password = ?', [body.password])
+        var currentUserLoginPassword = await dbc.get(db, 'SELECT password, username, id FROM user WHERE password = ? AND email = ?', [body.password, body.email])
         var currentUserID = currentUserLoginPassword['id']
         var currentUserName = currentUserLoginPassword['username']
     } catch (error) {
